@@ -1,0 +1,39 @@
+{
+  "name": "meu-bairro",
+  "version": "1.0.0",
+  "main": "expo-router/entry",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "commit-hash": "node scripts/gerar-commit-hash.js"
+  },
+  "dependencies": {
+    "@expo-google-fonts/barlow": "*",
+    "@expo-google-fonts/barlow-condensed": "*",
+    "@expo/vector-icons": "*",
+    "axios": "^1.7.0",
+    "expo": "~54.0.0",
+    "expo-constants": "*",
+    "expo-font": "*",
+    "expo-image-picker": "*",
+    "expo-linking": "*",
+    "expo-location": "*",
+    "expo-router": "*",
+    "expo-secure-store": "*",
+    "expo-splash-screen": "*",
+    "expo-status-bar": "*",
+    "react": "19.1.0",
+    "react-native": "0.81.5",
+    "react-native-safe-area-context": "*",
+    "react-native-screens": "*"
+  },
+  "devDependencies": {
+    "@types/react": "~19.1.0",
+    "eslint": "^9.0.0",
+    "eslint-config-expo": "*",
+    "prettier": "^3.0.0",
+    "typescript": "~5.9.0"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "expo": {
+    "name": "Meu Bairro",
+    "slug": "meu-bairro",
+    "version": "1.0.0",
+    "scheme": "meubairro",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "android": { "package": "br.com.fiap.meubairro" },
+    "plugins": [
+      "expo-router",
+      "expo-secure-store",
+      ["expo-image-picker", { "photosPermission": "Escolher a foto do problema do bairro.", "cameraPermission": "Fotografar o problema do bairro." }],
+      ["expo-location", { "locationWhenInUsePermission": "Registrar onde o problema está." }]
+    ]
+  }
+}

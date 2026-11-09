@@ -1,0 +1,8 @@
+node_modules/
+.expo/
+dist/
+*.apk
+*.aab
+.env
+mock-api/node_modules/
+mock-api/uploads/
