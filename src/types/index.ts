@@ -42,3 +42,19 @@ export interface LoginResposta {
   token: string;
   usuario: Usuario;
 }
+
+export type Prioridade = 'BAIXA' | 'MEDIA' | 'ALTA';
+
+export interface HistoricoItem {
+  id: number | string;
+  tipo: string;
+  descricao: string;
+  dataRegistro: string;
+}
+
+export interface Triagem {
+  prioridade: Prioridade;
+  statusAnaliseIa: 'PENDENTE' | 'CONCLUIDA' | 'FALHA';
+  categoriaSugerida?: string | null;
+  justificativa?: string | null;
+}

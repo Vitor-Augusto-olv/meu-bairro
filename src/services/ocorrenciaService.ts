@@ -1,4 +1,4 @@
-import { Ocorrencia, OcorrenciaFormDados } from '../types';
+import { HistoricoItem, Ocorrencia, OcorrenciaFormDados, Triagem } from '../types';
 import { api } from './api';
 
 function montarFormData(dados: OcorrenciaFormDados) {
@@ -43,4 +43,14 @@ export async function atualizar(id: string, dados: OcorrenciaFormDados) {
 
 export async function excluir(id: string) {
   await api.delete(`/ocorrencias/${id}`);
+}
+
+export async function historico(id: string) {
+  const { data } = await api.get<HistoricoItem[]>(`/ocorrencias/${id}/historico`);
+  return data;
+}
+
+export async function triagem(id: string) {
+  const { data } = await api.get<Triagem>(`/ocorrencias/${id}/triagem`);
+  return data;
 }

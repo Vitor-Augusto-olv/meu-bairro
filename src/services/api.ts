@@ -33,6 +33,8 @@ export function mensagemDeErro(erro: unknown): string {
   if (isAxiosError(erro)) {
     if (!erro.response) return 'Sem conexão com o servidor. Tente de novo.';
     const dados = erro.response.data;
+    const campos = dados?.fields;
+    if (Array.isArray(campos) && campos.length) return campos.map((c: { message: string }) => c.message).join('\n');
     const msg = typeof dados === 'string' ? dados : (dados?.message ?? dados?.detail);
     if (msg) return String(msg);
     if (erro.response.status === 401) return 'E-mail ou senha incorretos.';
