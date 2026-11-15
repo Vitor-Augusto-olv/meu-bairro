@@ -143,6 +143,17 @@ export function OcorrenciaForm({ inicial, rotuloBotao, carregando, onEnviar }: P
         />
       </View>
       {fotoUri ? <Image source={{ uri: fotoUri }} style={styles.foto} /> : null}
+      {fotoUri && !fotoUri.startsWith('http') ? (
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel="Remover foto"
+          onPress={() => setFotoUri(inicial?.fotoUri ?? null)}
+          style={styles.removerFoto}
+        >
+          <Ionicons name="close-circle" size={20} color={colors.vermelho} />
+          <Text style={styles.removerTexto}>Remover foto</Text>
+        </Pressable>
+      ) : null}
       <View style={styles.linha}>
         <Pressable style={styles.fotoBotao} onPress={() => escolherFoto(true)}>
           <Ionicons name="camera" size={20} color={colors.asfalto} />
@@ -181,6 +192,15 @@ const styles = StyleSheet.create({
   multilinha: { minHeight: 100, textAlignVertical: 'top', paddingTop: 10 },
   espaco: { marginBottom: 14 },
   foto: { width: '100%', height: 190, borderRadius: 6, marginBottom: 10 },
+  removerFoto: {
+    minHeight: 44,
+    flexDirection: 'row',
+    gap: 6,
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+    marginBottom: 6,
+  },
+  removerTexto: { fontFamily: fonts.textoForte, fontSize: 15, color: colors.vermelho },
   linha: { flexDirection: 'row', gap: 10, marginBottom: 18 },
   fotoBotao: {
     flex: 1,

@@ -10,11 +10,14 @@ import { OcorrenciaFormDados } from '../../../src/types';
 export default function NovaOcorrencia() {
   const router = useRouter();
   const [carregando, setCarregando] = useState(false);
+  // A aba continua montada depois de salvar; mudar a chave recria o formulário em branco.
+  const [chave, setChave] = useState(0);
 
   async function criar(dados: OcorrenciaFormDados) {
     setCarregando(true);
     try {
       await ocorrenciaService.criar(dados);
+      setChave((c) => c + 1);
       Alert.alert('Ocorrência registrada', 'Obrigado por avisar!');
       router.replace('/');
     } catch (e) {
@@ -26,6 +29,7 @@ export default function NovaOcorrencia() {
 
   return (
     <OcorrenciaForm
+      key={chave}
       rotuloBotao="Registrar ocorrência"
       carregando={carregando}
       onEnviar={criar}
