@@ -21,9 +21,18 @@ export default function TabsLayout() {
         tabBarLabelStyle: { fontFamily: fonts.textoForte, fontSize: 13 },
       }}
     >
-      <Tabs.Screen name="index" options={{ title: 'Ocorrências', tabBarIcon: icone('list') }} />
-      <Tabs.Screen name="nova" options={{ title: 'Registrar', tabBarIcon: icone('add-circle') }} />
-      <Tabs.Screen name="perfil" options={{ title: 'Perfil', tabBarIcon: icone('person') }} />
+      <Tabs.Screen
+        name="index"
+        options={{ title: 'Ocorrências', tabBarIcon: icone('list') }}
+      />
+      <Tabs.Screen
+        name="nova"
+        options={{ title: 'Registrar', tabBarIcon: icone('add-circle') }}
+      />
+      <Tabs.Screen
+        name="perfil"
+        options={{ title: 'Perfil', tabBarIcon: icone('person') }}
+      />
     </Tabs>
   );
 }

@@ -10,7 +10,11 @@ function montarFormData(dados: OcorrenciaFormDados) {
   if (dados.latitude != null) form.append('latitude', String(dados.latitude));
   if (dados.longitude != null) form.append('longitude', String(dados.longitude));
   if (dados.fotoUri && !dados.fotoUri.startsWith('http')) {
-    form.append('foto', { uri: dados.fotoUri, name: 'foto.jpg', type: 'image/jpeg' } as any);
+    form.append('foto', {
+      uri: dados.fotoUri,
+      name: 'foto.jpg',
+      type: 'image/jpeg',
+    } as any);
   }
   return form;
 }
@@ -28,7 +32,11 @@ export async function buscar(id: string) {
 }
 
 export async function criar(dados: OcorrenciaFormDados) {
-  const { data } = await api.post<Ocorrencia>('/ocorrencias', montarFormData(dados), multipart);
+  const { data } = await api.post<Ocorrencia>(
+    '/ocorrencias',
+    montarFormData(dados),
+    multipart,
+  );
   return data;
 }
 

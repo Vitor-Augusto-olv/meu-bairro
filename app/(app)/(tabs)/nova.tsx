@@ -24,5 +24,11 @@ export default function NovaOcorrencia() {
     }
   }
 
-  return <OcorrenciaForm rotuloBotao="Registrar ocorrência" carregando={carregando} onEnviar={criar} />;
+  return (
+    <OcorrenciaForm
+      rotuloBotao="Registrar ocorrência"
+      carregando={carregando}
+      onEnviar={criar}
+    />
+  );
 }

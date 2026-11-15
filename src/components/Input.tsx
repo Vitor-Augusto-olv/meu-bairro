@@ -24,7 +24,12 @@ export function Input({ rotulo, erro, style, ...resto }: Props) {
 
 const styles = StyleSheet.create({
   grupo: { marginBottom: 14 },
-  rotulo: { fontFamily: fonts.textoForte, fontSize: 15, color: colors.asfalto, marginBottom: 6 },
+  rotulo: {
+    fontFamily: fonts.textoForte,
+    fontSize: 15,
+    color: colors.asfalto,
+    marginBottom: 6,
+  },
   campo: {
     minHeight: 48,
     borderWidth: 1.5,

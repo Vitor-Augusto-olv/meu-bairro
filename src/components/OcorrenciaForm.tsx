@@ -2,7 +2,15 @@ import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';
 import { useState } from 'react';
-import { Alert, Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import {
+  Alert,
+  Image,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 
 import { CATEGORIAS } from '../constants/categorias';
 import { colors, fonts } from '../theme/colors';
@@ -37,10 +45,15 @@ export function OcorrenciaForm({ inicial, rotuloBotao, carregando, onEnviar }: P
       : ImagePicker.requestMediaLibraryPermissionsAsync;
     const permissao = await pedir();
     if (!permissao.granted) {
-      Alert.alert('Permissão necessária', 'Libere o acesso nas configurações do celular.');
+      Alert.alert(
+        'Permissão necessária',
+        'Libere o acesso nas configurações do celular.',
+      );
       return;
     }
-    const abrir = camera ? ImagePicker.launchCameraAsync : ImagePicker.launchImageLibraryAsync;
+    const abrir = camera
+      ? ImagePicker.launchCameraAsync
+      : ImagePicker.launchImageLibraryAsync;
     const resultado = await abrir({ mediaTypes: ['images'], quality: 0.6 });
     if (!resultado.canceled) setFotoUri(resultado.assets[0].uri);
   }
@@ -57,10 +70,15 @@ export function OcorrenciaForm({ inicial, rotuloBotao, carregando, onEnviar }: P
       setCoords({ latitude: pos.coords.latitude, longitude: pos.coords.longitude });
       const [lugar] = await Location.reverseGeocodeAsync(pos.coords);
       if (lugar) {
-        setEndereco([lugar.street, lugar.streetNumber, lugar.district].filter(Boolean).join(', '));
+        setEndereco(
+          [lugar.street, lugar.streetNumber, lugar.district].filter(Boolean).join(', '),
+        );
       }
     } catch {
-      Alert.alert('Não foi possível obter a localização', 'Digite o endereço manualmente.');
+      Alert.alert(
+        'Não foi possível obter a localização',
+        'Digite o endereço manualmente.',
+      );
     } finally {
       setBuscandoLocal(false);
     }
@@ -74,8 +92,16 @@ export function OcorrenciaForm({ inicial, rotuloBotao, carregando, onEnviar }: P
   }
 
   return (
-    <ScrollView contentContainerStyle={styles.conteudo} keyboardShouldPersistTaps="handled">
-      <Input rotulo="Título" value={titulo} onChangeText={setTitulo} erro={erros.titulo} />
+    <ScrollView
+      contentContainerStyle={styles.conteudo}
+      keyboardShouldPersistTaps="handled"
+    >
+      <Input
+        rotulo="Título"
+        value={titulo}
+        onChangeText={setTitulo}
+        erro={erros.titulo}
+      />
       <Text style={styles.rotulo}>Tipo de problema</Text>
       <View style={styles.chips}>
         {CATEGORIAS.map((c) => (
@@ -86,7 +112,9 @@ export function OcorrenciaForm({ inicial, rotuloBotao, carregando, onEnviar }: P
             onPress={() => setCategoria(c.valor)}
             style={[styles.chip, categoria === c.valor && styles.chipAtivo]}
           >
-            <Text style={[styles.chipTexto, categoria === c.valor && styles.chipTextoAtivo]}>
+            <Text
+              style={[styles.chipTexto, categoria === c.valor && styles.chipTextoAtivo]}
+            >
               {c.rotulo}
             </Text>
           </Pressable>
@@ -100,7 +128,12 @@ export function OcorrenciaForm({ inicial, rotuloBotao, carregando, onEnviar }: P
         multiline
         style={styles.multilinha}
       />
-      <Input rotulo="Rua e bairro" value={endereco} onChangeText={setEndereco} erro={erros.endereco} />
+      <Input
+        rotulo="Rua e bairro"
+        value={endereco}
+        onChangeText={setEndereco}
+        erro={erros.endereco}
+      />
       <View style={styles.espaco}>
         <Button
           titulo="Usar minha localização"
@@ -127,7 +160,12 @@ export function OcorrenciaForm({ inicial, rotuloBotao, carregando, onEnviar }: P
 
 const styles = StyleSheet.create({
   conteudo: { padding: 20, paddingBottom: 40 },
-  rotulo: { fontFamily: fonts.textoForte, fontSize: 15, color: colors.asfalto, marginBottom: 6 },
+  rotulo: {
+    fontFamily: fonts.textoForte,
+    fontSize: 15,
+    color: colors.asfalto,
+    marginBottom: 6,
+  },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 14 },
   chip: {
     paddingHorizontal: 14,

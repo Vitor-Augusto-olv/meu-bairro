@@ -15,7 +15,9 @@ export function Aviso({ titulo, texto, acao }: Props) {
     <View style={styles.caixa}>
       <Text style={styles.titulo}>{titulo}</Text>
       {texto ? <Text style={styles.texto}>{texto}</Text> : null}
-      {acao ? <Button titulo={acao.rotulo} onPress={acao.onPress} variante="secundario" /> : null}
+      {acao ? (
+        <Button titulo={acao.rotulo} onPress={acao.onPress} variante="secundario" />
+      ) : null}
     </View>
   );
 }

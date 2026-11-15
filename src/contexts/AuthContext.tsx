@@ -1,5 +1,12 @@
 import * as SecureStore from 'expo-secure-store';
-import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react';
+import {
+  createContext,
+  ReactNode,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 
 import { definirAoExpirarSessao, TOKEN_KEY, USUARIO_KEY } from '../services/api';
 import * as authService from '../services/authService';

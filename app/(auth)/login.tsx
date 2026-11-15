@@ -1,6 +1,12 @@
 import { Link } from 'expo-router';
 import { useState } from 'react';
-import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text } from 'react-native';
+import {
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+} from 'react-native';
 
 import { Button } from '../../src/components/Button';
 import { Input } from '../../src/components/Input';
@@ -33,10 +39,18 @@ export default function Login() {
   }
 
   return (
-    <KeyboardAvoidingView style={styles.tela} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-      <ScrollView contentContainerStyle={styles.conteudo} keyboardShouldPersistTaps="handled">
+    <KeyboardAvoidingView
+      style={styles.tela}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+    >
+      <ScrollView
+        contentContainerStyle={styles.conteudo}
+        keyboardShouldPersistTaps="handled"
+      >
         <Text style={styles.marca}>Meu Bairro</Text>
-        <Text style={styles.subtitulo}>Avise a prefeitura do que precisa de conserto na sua rua.</Text>
+        <Text style={styles.subtitulo}>
+          Avise a prefeitura do que precisa de conserto na sua rua.
+        </Text>
         <Input
           rotulo="E-mail"
           value={email}
@@ -45,7 +59,13 @@ export default function Login() {
           keyboardType="email-address"
           autoCapitalize="none"
         />
-        <Input rotulo="Senha" value={senha} onChangeText={setSenha} erro={erros.senha} secureTextEntry />
+        <Input
+          rotulo="Senha"
+          value={senha}
+          onChangeText={setSenha}
+          erro={erros.senha}
+          secureTextEntry
+        />
         {erroApi ? <Text style={styles.erroApi}>{erroApi}</Text> : null}
         <Button titulo="Entrar" onPress={enviar} carregando={carregando} />
         <Link href="/cadastro" style={styles.link}>
@@ -60,7 +80,18 @@ const styles = StyleSheet.create({
   tela: { flex: 1, backgroundColor: colors.concreto },
   conteudo: { padding: 24, paddingTop: 90 },
   marca: { fontFamily: fonts.titulo, fontSize: 56, color: colors.asfalto },
-  subtitulo: { fontFamily: fonts.texto, fontSize: 17, color: colors.cinza, marginBottom: 28 },
+  subtitulo: {
+    fontFamily: fonts.texto,
+    fontSize: 17,
+    color: colors.cinza,
+    marginBottom: 28,
+  },
   erroApi: { fontFamily: fonts.textoForte, color: colors.vermelho, marginBottom: 12 },
-  link: { fontFamily: fonts.textoForte, fontSize: 16, color: colors.asfalto, marginTop: 20, textAlign: 'center' },
+  link: {
+    fontFamily: fonts.textoForte,
+    fontSize: 16,
+    color: colors.asfalto,
+    marginTop: 20,
+    textAlign: 'center',
+  },
 });

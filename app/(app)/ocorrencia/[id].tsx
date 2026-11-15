@@ -13,7 +13,11 @@ import * as ocorrenciaService from '../../../src/services/ocorrenciaService';
 import { colors, fonts } from '../../../src/theme/colors';
 import { HistoricoItem, Ocorrencia, Prioridade, Triagem } from '../../../src/types';
 
-const ROTULO_PRIORIDADE: Record<Prioridade, string> = { BAIXA: 'Baixa', MEDIA: 'Média', ALTA: 'Alta' };
+const ROTULO_PRIORIDADE: Record<Prioridade, string> = {
+  BAIXA: 'Baixa',
+  MEDIA: 'Média',
+  ALTA: 'Alta',
+};
 
 export default function DetalheOcorrencia() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -61,7 +65,14 @@ export default function DetalheOcorrencia() {
     ]);
   }
 
-  if (erro) return <Aviso titulo="Ocorrência indisponível" texto={erro} acao={{ rotulo: 'Voltar', onPress: () => router.back() }} />;
+  if (erro)
+    return (
+      <Aviso
+        titulo="Ocorrência indisponível"
+        texto={erro}
+        acao={{ rotulo: 'Voltar', onPress: () => router.back() }}
+      />
+    );
   if (!ocorrencia) return <Loader />;
 
   const dono = String(ocorrencia.usuarioId) === String(usuario?.id);
@@ -69,10 +80,16 @@ export default function DetalheOcorrencia() {
 
   return (
     <ScrollView contentContainerStyle={styles.conteudo}>
-      {ocorrencia.fotoUrl ? <Image source={{ uri: ocorrencia.fotoUrl }} style={styles.foto} /> : null}
+      {ocorrencia.fotoUrl ? (
+        <Image source={{ uri: ocorrencia.fotoUrl }} style={styles.foto} />
+      ) : null}
       <View style={styles.linha}>
         <StatusBadge status={ocorrencia.status} />
-        {triagem ? <Text style={styles.prioridade}>Prioridade {ROTULO_PRIORIDADE[triagem.prioridade]}</Text> : null}
+        {triagem ? (
+          <Text style={styles.prioridade}>
+            Prioridade {ROTULO_PRIORIDADE[triagem.prioridade]}
+          </Text>
+        ) : null}
       </View>
       <Text style={styles.titulo}>{ocorrencia.titulo}</Text>
       <Text style={styles.meta}>
@@ -92,7 +109,9 @@ export default function DetalheOcorrencia() {
           <Text style={styles.secao}>Andamento</Text>
           {historico.map((h) => (
             <View key={h.id} style={styles.itemHistorico}>
-              <Text style={styles.dataHistorico}>{new Date(h.dataRegistro).toLocaleString('pt-BR')}</Text>
+              <Text style={styles.dataHistorico}>
+                {new Date(h.dataRegistro).toLocaleString('pt-BR')}
+              </Text>
               <Text style={styles.textoHistorico}>{h.descricao}</Text>
             </View>
           ))}
@@ -101,11 +120,22 @@ export default function DetalheOcorrencia() {
 
       {editavel ? (
         <View style={styles.botoes}>
-          <Button titulo="Editar" variante="secundario" onPress={() => router.push(`/editar/${id}`)} />
-          <Button titulo="Excluir" variante="perigo" carregando={excluindo} onPress={confirmarExclusao} />
+          <Button
+            titulo="Editar"
+            variante="secundario"
+            onPress={() => router.push(`/editar/${id}`)}
+          />
+          <Button
+            titulo="Excluir"
+            variante="perigo"
+            carregando={excluindo}
+            onPress={confirmarExclusao}
+          />
         </View>
       ) : dono ? (
-        <Text style={styles.aviso}>Só é possível editar ou excluir ocorrências com status Aberta.</Text>
+        <Text style={styles.aviso}>
+          Só é possível editar ou excluir ocorrências com status Aberta.
+        </Text>
       ) : null}
     </ScrollView>
   );
@@ -118,8 +148,19 @@ const styles = StyleSheet.create({
   prioridade: { fontFamily: fonts.textoForte, fontSize: 14, color: colors.asfalto },
   titulo: { fontFamily: fonts.titulo, fontSize: 34, color: colors.asfalto },
   meta: { fontFamily: fonts.textoForte, fontSize: 15, color: colors.cinza },
-  descricao: { fontFamily: fonts.texto, fontSize: 17, color: colors.asfalto, lineHeight: 24 },
-  caixa: { backgroundColor: colors.branco, borderRadius: 6, padding: 14, gap: 8, marginTop: 6 },
+  descricao: {
+    fontFamily: fonts.texto,
+    fontSize: 17,
+    color: colors.asfalto,
+    lineHeight: 24,
+  },
+  caixa: {
+    backgroundColor: colors.branco,
+    borderRadius: 6,
+    padding: 14,
+    gap: 8,
+    marginTop: 6,
+  },
   secao: { fontFamily: fonts.titulo, fontSize: 22, color: colors.asfalto },
   itemHistorico: { borderLeftWidth: 3, borderLeftColor: colors.amarelo, paddingLeft: 10 },
   dataHistorico: { fontFamily: fonts.texto, fontSize: 13, color: colors.cinza },

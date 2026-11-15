@@ -1,5 +1,9 @@
 import { BarlowCondensed_700Bold } from '@expo-google-fonts/barlow-condensed';
-import { Barlow_400Regular, Barlow_600SemiBold, useFonts } from '@expo-google-fonts/barlow';
+import {
+  Barlow_400Regular,
+  Barlow_600SemiBold,
+  useFonts,
+} from '@expo-google-fonts/barlow';
 import { Slot } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';

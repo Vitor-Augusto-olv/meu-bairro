@@ -21,6 +21,11 @@ export function StatusBadge({ status }: { status: StatusOcorrencia }) {
 }
 
 const styles = StyleSheet.create({
-  caixa: { paddingHorizontal: 10, paddingVertical: 3, borderRadius: 4, alignSelf: 'flex-start' },
+  caixa: {
+    paddingHorizontal: 10,
+    paddingVertical: 3,
+    borderRadius: 4,
+    alignSelf: 'flex-start',
+  },
   texto: { fontFamily: fonts.textoForte, fontSize: 13, color: colors.branco },
 });

@@ -21,7 +21,8 @@ export default function ListaOcorrencias() {
   const [soMinhas, setSoMinhas] = useState(false);
 
   const carregar = useCallback(async (puxar = false) => {
-    puxar ? setAtualizando(true) : setCarregando(true);
+    if (puxar) setAtualizando(true);
+    else setCarregando(true);
     setErro('');
     try {
       setLista(await ocorrenciaService.listar());
@@ -39,11 +40,19 @@ export default function ListaOcorrencias() {
     }, [carregar]),
   );
 
-  const dados = soMinhas ? lista.filter((o) => String(o.usuarioId) === String(usuario?.id)) : lista;
+  const dados = soMinhas
+    ? lista.filter((o) => String(o.usuarioId) === String(usuario?.id))
+    : lista;
 
   if (carregando) return <Loader />;
   if (erro) {
-    return <Aviso titulo="Não deu para carregar" texto={erro} acao={{ rotulo: 'Tentar de novo', onPress: () => carregar() }} />;
+    return (
+      <Aviso
+        titulo="Não deu para carregar"
+        texto={erro}
+        acao={{ rotulo: 'Tentar de novo', onPress: () => carregar() }}
+      />
+    );
   }
 
   return (
@@ -70,7 +79,10 @@ export default function ListaOcorrencias() {
         onRefresh={() => carregar(true)}
         contentContainerStyle={styles.lista}
         renderItem={({ item }) => (
-          <CardOcorrencia ocorrencia={item} onPress={() => router.push(`/ocorrencia/${item.id}`)} />
+          <CardOcorrencia
+            ocorrencia={item}
+            onPress={() => router.push(`/ocorrencia/${item.id}`)}
+          />
         )}
         ListEmptyComponent={
           <Aviso
@@ -87,7 +99,13 @@ export default function ListaOcorrencias() {
 const styles = StyleSheet.create({
   tela: { flex: 1, backgroundColor: colors.concreto },
   filtro: { flexDirection: 'row', padding: 12, gap: 8 },
-  aba: { paddingHorizontal: 18, paddingVertical: 8, borderRadius: 20, borderWidth: 1.5, borderColor: colors.asfalto },
+  aba: {
+    paddingHorizontal: 18,
+    paddingVertical: 8,
+    borderRadius: 20,
+    borderWidth: 1.5,
+    borderColor: colors.asfalto,
+  },
   abaAtiva: { backgroundColor: colors.asfalto },
   abaTexto: { fontFamily: fonts.textoForte, color: colors.asfalto },
   abaTextoAtivo: { color: colors.branco },

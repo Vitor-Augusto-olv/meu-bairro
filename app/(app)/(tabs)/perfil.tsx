@@ -14,7 +14,11 @@ export default function Perfil() {
       <Text style={styles.nome}>{usuario?.nome}</Text>
       <Text style={styles.email}>{usuario?.email}</Text>
       <View style={styles.botoes}>
-        <Button titulo="Sobre o app" variante="secundario" onPress={() => router.push('/sobre')} />
+        <Button
+          titulo="Sobre o app"
+          variante="secundario"
+          onPress={() => router.push('/sobre')}
+        />
         <Button titulo="Sair da conta" variante="perigo" onPress={sair} />
       </View>
     </View>

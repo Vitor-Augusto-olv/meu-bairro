@@ -1,10 +1,5 @@
 export type Categoria =
-  | 'BURACO'
-  | 'ILUMINACAO'
-  | 'LIXO'
-  | 'ALAGAMENTO'
-  | 'CALCADA'
-  | 'OUTRO';
+  'BURACO' | 'ILUMINACAO' | 'LIXO' | 'ALAGAMENTO' | 'CALCADA' | 'OUTRO';
 
 export type StatusOcorrencia = 'ABERTA' | 'EM_ANALISE' | 'RESOLVIDA';
 

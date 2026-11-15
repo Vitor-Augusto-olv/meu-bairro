@@ -35,7 +35,14 @@ export default function EditarOcorrencia() {
     }
   }
 
-  if (erro) return <Aviso titulo="Não deu para carregar" texto={erro} acao={{ rotulo: 'Voltar', onPress: () => router.back() }} />;
+  if (erro)
+    return (
+      <Aviso
+        titulo="Não deu para carregar"
+        texto={erro}
+        acao={{ rotulo: 'Voltar', onPress: () => router.back() }}
+      />
+    );
   if (!ocorrencia) return <Loader />;
 
   return (

@@ -1,10 +1,10 @@
-import axios, { isAxiosError } from 'axios';
+import { create, isAxiosError } from 'axios';
 import * as SecureStore from 'expo-secure-store';
 
 export const TOKEN_KEY = 'meubairro.token';
 export const USUARIO_KEY = 'meubairro.usuario';
 
-export const api = axios.create({
+export const api = create({
   baseURL: process.env.EXPO_PUBLIC_API_URL,
   timeout: 15000,
 });
@@ -34,7 +34,8 @@ export function mensagemDeErro(erro: unknown): string {
     if (!erro.response) return 'Sem conexão com o servidor. Tente de novo.';
     const dados = erro.response.data;
     const campos = dados?.fields;
-    if (Array.isArray(campos) && campos.length) return campos.map((c: { message: string }) => c.message).join('\n');
+    if (Array.isArray(campos) && campos.length)
+      return campos.map((c: { message: string }) => c.message).join('\n');
     const msg = typeof dados === 'string' ? dados : (dados?.message ?? dados?.detail);
     if (msg) return String(msg);
     if (erro.response.status === 401) return 'E-mail ou senha incorretos.';

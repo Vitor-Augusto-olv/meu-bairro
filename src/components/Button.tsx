@@ -20,7 +20,9 @@ export function Button({ titulo, onPress, carregando, variante = 'primario' }: P
       style={estilo}
     >
       {carregando ? (
-        <ActivityIndicator color={variante === 'primario' ? colors.asfalto : colors.branco} />
+        <ActivityIndicator
+          color={variante === 'primario' ? colors.asfalto : colors.branco}
+        />
       ) : (
         <Text style={[styles.texto, variante === 'primario' && styles.textoPrimario]}>
           {titulo}
@@ -31,7 +33,12 @@ export function Button({ titulo, onPress, carregando, variante = 'primario' }: P
 }
 
 const styles = StyleSheet.create({
-  base: { minHeight: 50, borderRadius: 6, alignItems: 'center', justifyContent: 'center' },
+  base: {
+    minHeight: 50,
+    borderRadius: 6,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   primario: { backgroundColor: colors.amarelo },
   secundario: { backgroundColor: colors.asfalto },
   perigo: { backgroundColor: colors.vermelho },

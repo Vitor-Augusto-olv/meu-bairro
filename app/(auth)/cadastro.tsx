@@ -34,9 +34,18 @@ export default function Cadastro() {
   }
 
   return (
-    <ScrollView style={styles.tela} contentContainerStyle={styles.conteudo} keyboardShouldPersistTaps="handled">
+    <ScrollView
+      style={styles.tela}
+      contentContainerStyle={styles.conteudo}
+      keyboardShouldPersistTaps="handled"
+    >
       <Text style={styles.titulo}>Criar conta</Text>
-      <Input rotulo="Nome completo" value={nome} onChangeText={setNome} erro={erros.nome} />
+      <Input
+        rotulo="Nome completo"
+        value={nome}
+        onChangeText={setNome}
+        erro={erros.nome}
+      />
       <Input
         rotulo="E-mail"
         value={email}
@@ -45,7 +54,13 @@ export default function Cadastro() {
         keyboardType="email-address"
         autoCapitalize="none"
       />
-      <Input rotulo="Senha" value={senha} onChangeText={setSenha} erro={erros.senha} secureTextEntry />
+      <Input
+        rotulo="Senha"
+        value={senha}
+        onChangeText={setSenha}
+        erro={erros.senha}
+        secureTextEntry
+      />
       {erroApi ? <Text style={styles.erroApi}>{erroApi}</Text> : null}
       <Button titulo="Criar conta" onPress={enviar} carregando={carregando} />
       <Link href="/login" style={styles.link}>
@@ -58,7 +73,18 @@ export default function Cadastro() {
 const styles = StyleSheet.create({
   tela: { flex: 1, backgroundColor: colors.concreto },
   conteudo: { padding: 24, paddingTop: 80 },
-  titulo: { fontFamily: fonts.titulo, fontSize: 42, color: colors.asfalto, marginBottom: 24 },
+  titulo: {
+    fontFamily: fonts.titulo,
+    fontSize: 42,
+    color: colors.asfalto,
+    marginBottom: 24,
+  },
   erroApi: { fontFamily: fonts.textoForte, color: colors.vermelho, marginBottom: 12 },
-  link: { fontFamily: fonts.textoForte, fontSize: 16, color: colors.asfalto, marginTop: 20, textAlign: 'center' },
+  link: {
+    fontFamily: fonts.textoForte,
+    fontSize: 16,
+    color: colors.asfalto,
+    marginTop: 20,
+    textAlign: 'center',
+  },
 });
