@@ -4,7 +4,7 @@
     "preview": {
       "distribution": "internal",
       "android": { "buildType": "apk" },
-      "env": { "EXPO_PUBLIC_API_URL": "http://SEU-IP:8080/api" }
+      "env": { "EXPO_PUBLIC_API_URL": "http://10.0.2.2:8080/api" }
     }
   }
 }
