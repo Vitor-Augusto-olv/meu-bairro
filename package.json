@@ -14,17 +14,17 @@
     "@expo-google-fonts/barlow-condensed": "*",
     "@expo/vector-icons": "*",
     "axios": "^1.7.0",
-    "expo": "^58.0.0",
+    "expo": "~58.0.25",
     "expo-build-properties": "~58.0.12",
     "expo-constants": "*",
     "expo-font": "*",
     "expo-image-picker": "*",
-    "expo-linking": "*",
-    "expo-location": "*",
-    "expo-router": "*",
-    "expo-secure-store": "*",
-    "expo-splash-screen": "*",
-    "expo-status-bar": "*",
+    "expo-linking": "~58.0.17",
+    "expo-location": "~58.0.22",
+    "expo-router": "~58.0.31",
+    "expo-secure-store": "~58.0.3",
+    "expo-splash-screen": "~58.0.14",
+    "expo-status-bar": "~58.0.5",
     "react": "19.3.0",
     "react-native": "*",
     "react-native-safe-area-context": "*",
@@ -35,6 +35,6 @@
     "eslint": "^9.0.0",
     "eslint-config-expo": "*",
     "prettier": "^3.0.0",
-    "typescript": "~5.9.0"
+    "typescript": "~6.0.3"
   }
 }
