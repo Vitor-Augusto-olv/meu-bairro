@@ -6,7 +6,7 @@ export const USUARIO_KEY = 'meubairro.usuario';
 
 export const api = create({
   baseURL: process.env.EXPO_PUBLIC_API_URL,
-  timeout: 15000,
+  timeout: 30000,
 });
 
 api.interceptors.request.use(async (config) => {
