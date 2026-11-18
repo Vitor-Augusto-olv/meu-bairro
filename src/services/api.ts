@@ -1,16 +1,14 @@
-import { create, isAxiosError } from 'axios';
-import * as SecureStore from 'expo-secure-store';
+import axios, { isAxiosError } from 'axios';
 
-export const TOKEN_KEY = 'meubairro.token';
-export const USUARIO_KEY = 'meubairro.usuario';
+import { API_URL, TOKEN_KEY } from '../config';
+import { ErroLocal } from './erroLocal';
+import { armazenamento } from './storage';
 
-export const api = create({
-  baseURL: process.env.EXPO_PUBLIC_API_URL,
-  timeout: 30000,
-});
+// eslint-disable-next-line import/no-named-as-default-member
+export const api = axios.create({ baseURL: API_URL, timeout: 30000 });
 
 api.interceptors.request.use(async (config) => {
-  const token = await SecureStore.getItemAsync(TOKEN_KEY);
+  const token = await armazenamento.obter(TOKEN_KEY);
   if (token) config.headers.Authorization = `Bearer ${token}`;
   return config;
 });
@@ -30,12 +28,14 @@ api.interceptors.response.use(
 );
 
 export function mensagemDeErro(erro: unknown): string {
+  if (erro instanceof ErroLocal) return erro.message;
   if (isAxiosError(erro)) {
     if (!erro.response) return 'Sem conexão com o servidor. Tente de novo.';
     const dados = erro.response.data;
     const campos = dados?.fields;
-    if (Array.isArray(campos) && campos.length)
+    if (Array.isArray(campos) && campos.length) {
       return campos.map((c: { message: string }) => c.message).join('\n');
+    }
     const msg = typeof dados === 'string' ? dados : (dados?.message ?? dados?.detail);
     if (msg) return String(msg);
     if (erro.response.status === 401) return 'E-mail ou senha incorretos.';

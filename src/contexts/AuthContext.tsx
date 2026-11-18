@@ -1,4 +1,3 @@
-import * as SecureStore from 'expo-secure-store';
 import {
   createContext,
   ReactNode,
@@ -8,8 +7,10 @@ import {
   useState,
 } from 'react';
 
-import { definirAoExpirarSessao, TOKEN_KEY, USUARIO_KEY } from '../services/api';
+import { TOKEN_KEY, USUARIO_KEY } from '../config';
+import { definirAoExpirarSessao } from '../services/api';
 import * as authService from '../services/authService';
+import { armazenamento } from '../services/storage';
 import { Usuario } from '../types';
 
 interface AuthContextDados {
@@ -29,8 +30,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [carregando, setCarregando] = useState(true);
 
   const sair = useCallback(async () => {
-    await SecureStore.deleteItemAsync(TOKEN_KEY);
-    await SecureStore.deleteItemAsync(USUARIO_KEY);
+    await armazenamento.remover(TOKEN_KEY);
+    await armazenamento.remover(USUARIO_KEY);
     setToken(null);
     setUsuario(null);
   }, []);
@@ -38,8 +39,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     definirAoExpirarSessao(sair);
     (async () => {
-      const t = await SecureStore.getItemAsync(TOKEN_KEY);
-      const u = await SecureStore.getItemAsync(USUARIO_KEY);
+      const t = await armazenamento.obter(TOKEN_KEY);
+      const u = await armazenamento.obter(USUARIO_KEY);
       if (t && u) {
         setToken(t);
         setUsuario(JSON.parse(u));
@@ -50,8 +51,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const entrar = async (email: string, senha: string) => {
     const resposta = await authService.entrar(email, senha);
-    await SecureStore.setItemAsync(TOKEN_KEY, resposta.token);
-    await SecureStore.setItemAsync(USUARIO_KEY, JSON.stringify(resposta.usuario));
+    await armazenamento.salvar(TOKEN_KEY, resposta.token);
+    await armazenamento.salvar(USUARIO_KEY, JSON.stringify(resposta.usuario));
     setToken(resposta.token);
     setUsuario(resposta.usuario);
   };

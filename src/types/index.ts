@@ -31,6 +31,7 @@ export interface OcorrenciaFormDados {
   latitude?: number | null;
   longitude?: number | null;
   fotoUri?: string | null;
+  fotoBase64?: string | null;
 }
 
 export interface LoginResposta {

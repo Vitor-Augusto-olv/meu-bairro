@@ -1,5 +1,7 @@
+import { MODO_LOCAL } from '../config';
 import { HistoricoItem, Ocorrencia, OcorrenciaFormDados, Triagem } from '../types';
 import { api } from './api';
+import * as local from './local';
 
 function montarFormData(dados: OcorrenciaFormDados) {
   const form = new FormData();
@@ -22,16 +24,19 @@ function montarFormData(dados: OcorrenciaFormDados) {
 const multipart = { headers: { 'Content-Type': 'multipart/form-data' } };
 
 export async function listar() {
+  if (MODO_LOCAL) return local.listar();
   const { data } = await api.get<Ocorrencia[]>('/ocorrencias');
   return data;
 }
 
 export async function buscar(id: string) {
+  if (MODO_LOCAL) return local.buscar(id);
   const { data } = await api.get<Ocorrencia>(`/ocorrencias/${id}`);
   return data;
 }
 
 export async function criar(dados: OcorrenciaFormDados) {
+  if (MODO_LOCAL) return local.criar(dados);
   const { data } = await api.post<Ocorrencia>(
     '/ocorrencias',
     montarFormData(dados),
@@ -41,6 +46,7 @@ export async function criar(dados: OcorrenciaFormDados) {
 }
 
 export async function atualizar(id: string, dados: OcorrenciaFormDados) {
+  if (MODO_LOCAL) return local.atualizar(id, dados);
   const { data } = await api.put<Ocorrencia>(
     `/ocorrencias/${id}`,
     montarFormData(dados),
@@ -50,15 +56,18 @@ export async function atualizar(id: string, dados: OcorrenciaFormDados) {
 }
 
 export async function excluir(id: string) {
+  if (MODO_LOCAL) return local.excluir(id);
   await api.delete(`/ocorrencias/${id}`);
 }
 
-export async function historico(id: string) {
+export async function historico(id: string): Promise<HistoricoItem[]> {
+  if (MODO_LOCAL) return local.historico(id);
   const { data } = await api.get<HistoricoItem[]>(`/ocorrencias/${id}/historico`);
   return data;
 }
 
-export async function triagem(id: string) {
+export async function triagem(id: string): Promise<Triagem | null> {
+  if (MODO_LOCAL) return local.triagem();
   const { data } = await api.get<Triagem>(`/ocorrencias/${id}/triagem`);
   return data;
 }
