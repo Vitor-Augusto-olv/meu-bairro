@@ -1,6 +1,5 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { Alert } from 'react-native';
 
 import { Aviso } from '../../../src/components/Aviso';
 import { Loader } from '../../../src/components/Loader';
@@ -8,6 +7,7 @@ import { OcorrenciaForm } from '../../../src/components/OcorrenciaForm';
 import { mensagemDeErro } from '../../../src/services/api';
 import * as ocorrenciaService from '../../../src/services/ocorrenciaService';
 import { Ocorrencia, OcorrenciaFormDados } from '../../../src/types';
+import { avisar } from '../../../src/utils/dialogo';
 
 export default function EditarOcorrencia() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -29,7 +29,7 @@ export default function EditarOcorrencia() {
       await ocorrenciaService.atualizar(id, dados);
       router.back();
     } catch (e) {
-      Alert.alert('Não foi possível salvar', mensagemDeErro(e));
+      avisar('Não foi possível salvar', mensagemDeErro(e));
     } finally {
       setSalvando(false);
     }

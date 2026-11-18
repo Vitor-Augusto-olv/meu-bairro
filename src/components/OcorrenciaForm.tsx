@@ -3,8 +3,8 @@ import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';
 import { useState } from 'react';
 import {
-  Alert,
   Image,
+  Platform,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -15,6 +15,7 @@ import {
 import { CATEGORIAS } from '../constants/categorias';
 import { colors, fonts } from '../theme/colors';
 import { Categoria, OcorrenciaFormDados } from '../types';
+import { avisar } from '../utils/dialogo';
 import { validarOcorrencia } from '../utils/validators';
 import { Button } from './Button';
 import { Input } from './Input';
@@ -36,26 +37,36 @@ export function OcorrenciaForm({ inicial, rotuloBotao, carregando, onEnviar }: P
     longitude: inicial?.longitude ?? null,
   });
   const [fotoUri, setFotoUri] = useState<string | null>(inicial?.fotoUri ?? null);
+  const [fotoBase64, setFotoBase64] = useState<string | null>(null);
   const [erros, setErros] = useState<Record<string, string>>({});
   const [buscandoLocal, setBuscandoLocal] = useState(false);
 
+  const fotoNova = !!fotoUri && fotoUri !== (inicial?.fotoUri ?? null);
+  const web = Platform.OS === 'web';
+
   async function escolherFoto(camera: boolean) {
-    const pedir = camera
-      ? ImagePicker.requestCameraPermissionsAsync
-      : ImagePicker.requestMediaLibraryPermissionsAsync;
-    const permissao = await pedir();
-    if (!permissao.granted) {
-      Alert.alert(
-        'Permissão necessária',
-        'Libere o acesso nas configurações do celular.',
-      );
-      return;
+    if (!web) {
+      const permissao = camera
+        ? await ImagePicker.requestCameraPermissionsAsync()
+        : await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (!permissao.granted) {
+        avisar('Permissão necessária', 'Libere o acesso nas configurações do celular.');
+        return;
+      }
     }
     const abrir = camera
       ? ImagePicker.launchCameraAsync
       : ImagePicker.launchImageLibraryAsync;
-    const resultado = await abrir({ mediaTypes: ['images'], quality: 0.6 });
-    if (!resultado.canceled) setFotoUri(resultado.assets[0].uri);
+    const resultado = await abrir({ mediaTypes: ['images'], quality: 0.3, base64: true });
+    if (!resultado.canceled) {
+      setFotoUri(resultado.assets[0].uri);
+      setFotoBase64(resultado.assets[0].base64 ?? null);
+    }
+  }
+
+  function removerFoto() {
+    setFotoUri(inicial?.fotoUri ?? null);
+    setFotoBase64(null);
   }
 
   async function usarLocalizacao() {
@@ -63,22 +74,24 @@ export function OcorrenciaForm({ inicial, rotuloBotao, carregando, onEnviar }: P
     try {
       const permissao = await Location.requestForegroundPermissionsAsync();
       if (!permissao.granted) {
-        Alert.alert('Permissão necessária', 'Digite o endereço ou libere a localização.');
+        avisar('Permissão necessária', 'Digite o endereço ou libere a localização.');
         return;
       }
       const pos = await Location.getCurrentPositionAsync({});
-      setCoords({ latitude: pos.coords.latitude, longitude: pos.coords.longitude });
-      const [lugar] = await Location.reverseGeocodeAsync(pos.coords);
-      if (lugar) {
-        setEndereco(
-          [lugar.street, lugar.streetNumber, lugar.district].filter(Boolean).join(', '),
-        );
+      const { latitude, longitude } = pos.coords;
+      setCoords({ latitude, longitude });
+      const coordenadas = `Lat ${latitude.toFixed(5)}, Lon ${longitude.toFixed(5)}`;
+      try {
+        const [lugar] = await Location.reverseGeocodeAsync(pos.coords);
+        const texto = lugar
+          ? [lugar.street, lugar.streetNumber, lugar.district].filter(Boolean).join(', ')
+          : '';
+        setEndereco(texto || coordenadas);
+      } catch {
+        setEndereco(coordenadas); // o navegador não converte coordenadas em endereço
       }
     } catch {
-      Alert.alert(
-        'Não foi possível obter a localização',
-        'Digite o endereço manualmente.',
-      );
+      avisar('Não foi possível obter a localização', 'Digite o endereço manualmente.');
     } finally {
       setBuscandoLocal(false);
     }
@@ -88,7 +101,7 @@ export function OcorrenciaForm({ inicial, rotuloBotao, carregando, onEnviar }: P
     const e = validarOcorrencia(titulo, descricao, endereco);
     setErros(e);
     if (Object.keys(e).length) return;
-    onEnviar({ titulo, descricao, categoria, endereco, ...coords, fotoUri });
+    onEnviar({ titulo, descricao, categoria, endereco, ...coords, fotoUri, fotoBase64 });
   }
 
   return (
@@ -143,11 +156,11 @@ export function OcorrenciaForm({ inicial, rotuloBotao, carregando, onEnviar }: P
         />
       </View>
       {fotoUri ? <Image source={{ uri: fotoUri }} style={styles.foto} /> : null}
-      {fotoUri && !fotoUri.startsWith('http') ? (
+      {fotoNova ? (
         <Pressable
           accessibilityRole="button"
           accessibilityLabel="Remover foto"
-          onPress={() => setFotoUri(inicial?.fotoUri ?? null)}
+          onPress={removerFoto}
           style={styles.removerFoto}
         >
           <Ionicons name="close-circle" size={20} color={colors.vermelho} />
@@ -155,13 +168,15 @@ export function OcorrenciaForm({ inicial, rotuloBotao, carregando, onEnviar }: P
         </Pressable>
       ) : null}
       <View style={styles.linha}>
-        <Pressable style={styles.fotoBotao} onPress={() => escolherFoto(true)}>
-          <Ionicons name="camera" size={20} color={colors.asfalto} />
-          <Text style={styles.fotoTexto}>Tirar foto</Text>
-        </Pressable>
+        {!web ? (
+          <Pressable style={styles.fotoBotao} onPress={() => escolherFoto(true)}>
+            <Ionicons name="camera" size={20} color={colors.asfalto} />
+            <Text style={styles.fotoTexto}>Tirar foto</Text>
+          </Pressable>
+        ) : null}
         <Pressable style={styles.fotoBotao} onPress={() => escolherFoto(false)}>
           <Ionicons name="images" size={20} color={colors.asfalto} />
-          <Text style={styles.fotoTexto}>Galeria</Text>
+          <Text style={styles.fotoTexto}>{web ? 'Escolher foto' : 'Galeria'}</Text>
         </Pressable>
       </View>
       <Button titulo={rotuloBotao} onPress={enviar} carregando={carregando} />

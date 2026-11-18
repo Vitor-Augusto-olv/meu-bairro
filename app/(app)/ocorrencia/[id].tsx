@@ -1,6 +1,6 @@
 import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { useCallback, useState } from 'react';
-import { Alert, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { Aviso } from '../../../src/components/Aviso';
 import { Button } from '../../../src/components/Button';
@@ -12,6 +12,7 @@ import { mensagemDeErro } from '../../../src/services/api';
 import * as ocorrenciaService from '../../../src/services/ocorrenciaService';
 import { colors, fonts } from '../../../src/theme/colors';
 import { HistoricoItem, Ocorrencia, Prioridade, Triagem } from '../../../src/types';
+import { avisar, confirmar } from '../../../src/utils/dialogo';
 
 const ROTULO_PRIORIDADE: Record<Prioridade, string> = {
   BAIXA: 'Baixa',
@@ -46,23 +47,21 @@ export default function DetalheOcorrencia() {
   );
 
   function confirmarExclusao() {
-    Alert.alert('Excluir ocorrência?', 'Essa ação não pode ser desfeita.', [
-      { text: 'Cancelar', style: 'cancel' },
-      {
-        text: 'Excluir',
-        style: 'destructive',
-        onPress: async () => {
-          setExcluindo(true);
-          try {
-            await ocorrenciaService.excluir(id);
-            router.back();
-          } catch (e) {
-            Alert.alert('Não foi possível excluir', mensagemDeErro(e));
-            setExcluindo(false);
-          }
-        },
+    confirmar(
+      'Excluir ocorrência?',
+      'Essa ação não pode ser desfeita.',
+      'Excluir',
+      async () => {
+        setExcluindo(true);
+        try {
+          await ocorrenciaService.excluir(id);
+          router.back();
+        } catch (e) {
+          avisar('Não foi possível excluir', mensagemDeErro(e));
+          setExcluindo(false);
+        }
       },
-    ]);
+    );
   }
 
   if (erro)
