@@ -78,7 +78,13 @@ export default function Login() {
 
 const styles = StyleSheet.create({
   tela: { flex: 1, backgroundColor: colors.concreto },
-  conteudo: { padding: 24, paddingTop: 90 },
+  conteudo: {
+    padding: 24,
+    paddingTop: 70,
+    maxWidth: 520,
+    width: '100%',
+    alignSelf: 'center',
+  },
   marca: { fontFamily: fonts.titulo, fontSize: 56, color: colors.asfalto },
   subtitulo: {
     fontFamily: fonts.texto,

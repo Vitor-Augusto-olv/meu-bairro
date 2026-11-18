@@ -1,6 +1,7 @@
 import Constants from 'expo-constants';
 import { StyleSheet, Text, View } from 'react-native';
 
+import { API_URL, MODO_LOCAL } from '../../src/config';
 import { COMMIT_HASH } from '../../src/constants/commit';
 import { colors, fonts } from '../../src/theme/colors';
 
@@ -8,7 +9,7 @@ export default function Sobre() {
   const linhas = [
     ['Versão', Constants.expoConfig?.version ?? '-'],
     ['Commit de referência', COMMIT_HASH],
-    ['API', process.env.EXPO_PUBLIC_API_URL ?? '-'],
+    ['Dados', MODO_LOCAL ? 'Local (AsyncStorage)' : `API ${API_URL}`],
   ];
 
   return (
