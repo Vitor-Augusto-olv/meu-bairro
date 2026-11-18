@@ -21,7 +21,14 @@
     "plugins": [
       "expo-router",
       "expo-secure-store",
-      ["expo-build-properties", { "android": { "usesCleartextTraffic": true } }],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "usesCleartextTraffic": true
+          }
+        }
+      ],
       [
         "expo-splash-screen",
         {
@@ -43,7 +50,8 @@
         {
           "locationWhenInUsePermission": "Registrar onde o problema está."
         }
-      ]
+      ],
+      "expo-status-bar"
     ],
     "extra": {
       "router": {
